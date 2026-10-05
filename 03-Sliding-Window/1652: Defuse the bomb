@@ -1,0 +1,79 @@
+if k>0; eg(5, 3, 1, 4) k=3, replace all no with the sum of next 3 nos =(8,10,12,9)
+if k<0; eg (2,5,7) k=-2 , replace all no with the sum of previous 2 nos= (12,9,7)
+if k=0; eg (3,6,2) , replace all with (0,0,0)
+
+The most important part: "simultaneously"
+Suppose:
+code = [5,7,1,4]
+k = 3
+
+We calculate everything using the original array.
+We DON'T do:
+5 → 12
+then use 12 while calculating the next element
+
+How do we make our index wrap around when it reaches the beginning/end?
+
+That's where the % operator becomes very useful.
+For example:
+int index = (i + 1) % n;
+If you write a sliding-window solution, you'll be moving right many times, and you'll constantly need to check:
+if (right == n) {
+    right = 0;
+}
+Instead, Java gives us a cleaner way:
+right = (right + 1) % n;
+
+or moving backward, you can use:
+right = (right - 1 + n) % n;
+
+//////////code:
+class Solution {
+    public int[] decrypt(int[] code, int k) {
+
+        int n = code.length;
+        int[] result = new int[n];
+
+        if (k == 0) {
+            return result;
+        }
+
+        int left = 0;
+
+        if (k > 0) {
+
+            while (left < n) {
+
+                int sum = 0;
+
+                for (int right = 0; right < Math.abs(k); right++) {
+
+                    int index = (left + right + 1) % n;
+                    sum = sum + code[index];
+                }
+
+                result[left] = sum;
+                left++;
+            }
+        }
+
+        if (k < 0) {
+
+            while (left < n) {
+
+                int sum = 0;
+
+                for (int right = 0; right < Math.abs(k); right++) {
+
+                    int index = (left - right - 1 + n) % n;
+                    sum = sum + code[index];
+                }
+
+                result[left] = sum;
+                left++;
+            }
+        }
+
+        return result;
+    }
+}
