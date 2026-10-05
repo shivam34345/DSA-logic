@@ -1,0 +1,77 @@
+What is the question actually asking?
+Suppose:
+s1 = "ab"
+s2 = "eidbaooo"
+
+A permutation of "ab" can be:
+"ab"
+"ba"
+
+We need to check whether any substring of s2 of length 2 contains exactly the same characters as s1
+
+If s1.length = 2, we only need to examine windows of length 2 in s2.
+s2 = e i d b a o o o
+     ----
+     ei
+
+       ----
+       id
+
+         ----
+         db
+
+           ----
+           ba   ← match!
+(So window size will be of s1.length(), will store the freq of s1(abb) characaters a-1, b-2 ; and in while sliding the window in s2, if the freq matches:a-1,b-2 ,
+ then return true!)
+ int[] freq = new int[26];    // frequency of s1
+int[] window = new int[26];  // frequency of current window
+They answer:
+"How many times does each character appear?"
+
+Actual sliding window
+This is controlled by:
+int left = 0;
+for (int right = 0; right < s2.length(); right++) {
+
+////////////////////////////code:- 
+import java.util.Arrays;
+
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+
+        int[] freq = new int[26];
+        int[] window = new int[26];
+
+        // Frequency of s1
+        for (int i = 0; i < s1.length(); i++) {
+            freq[s1.charAt(i) - 'a']++;
+        }
+
+        int left = 0;
+
+        // Sliding window
+        for (int right = 0; right < s2.length(); right++) {
+
+            // Add right character
+            window[s2.charAt(right) - 'a']++;
+
+            // If window becomes too large
+            if (right - left + 1 > s1.length()) {
+
+                // Remove left character
+                window[s2.charAt(left) - 'a']--;
+
+                // Move left
+                left++;
+            }
+
+            // Compare frequencies
+            if (Arrays.equals(freq, window)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
