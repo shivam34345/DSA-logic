@@ -1,0 +1,78 @@
+Just rank the nos as per their priority , but dont change the original order of array 
+
+You are given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
+
+The athletes are placed based on their scores, where the 1st place athlete has the highest score, the 2nd place athlete has the 2nd highest score, and so on. The placement of each athlete determines their rank:
+
+The 1st place athlete's rank is "Gold Medal".
+The 2nd place athlete's rank is "Silver Medal".
+The 3rd place athlete's rank is "Bronze Medal".
+For the 4th place to the nth place athlete, their rank is their placement number (i.e., the xth place athlete's rank is "x").
+
+If you put only the numbers into the PriorityQueue:
+10, 9, 8, 4, 3
+
+when you poll() 9, you know its rank is 2, but you don't know that 9 originally belonged to index 3.
+So instead, put a pair:
+(score, originalIndex)
+
+into the PriorityQueue.
+
+Now poll
+First:
+current = pq.poll();
+You get:
+(10, 0)
+
+You can access:
+score = 10
+index = 0
+using this index we can put the rank in the result array on that original index
+
+import java.util.*;
+
+class Solution {
+    public String[] findRelativeRanks(int[] score) {
+
+        int n = score.length;
+        String[] answer = new String[n];
+
+        // Max PriorityQueue
+        // Stores: {score, originalIndex}
+        PriorityQueue<int[]> pq = new PriorityQueue<>(
+            (a, b) -> b[0] - a[0]
+        );
+
+        // Put score + original index into PriorityQueue
+        for (int i = 0; i < n; i++) {
+            pq.add(new int[]{score[i], i});
+        }
+
+        // Rank the athletes
+        int rank = 1;
+
+        while (!pq.isEmpty()) {
+
+            int[] current = pq.poll();
+
+            int index = current[1];
+
+            if (rank == 1) {
+                answer[index] = "Gold Medal";
+            }
+            else if (rank == 2) {
+                answer[index] = "Silver Medal";
+            }
+            else if (rank == 3) {
+                answer[index] = "Bronze Medal";
+            }
+            else {
+                answer[index] = String.valueOf(rank);
+            }
+
+            rank++;
+        }
+
+        return answer;
+    }
+}
