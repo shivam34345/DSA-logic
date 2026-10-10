@@ -1,0 +1,47 @@
+For stones = [2,7,4,1,8,1], we don't calculate the total sum of all stones. Instead, we repeatedly choose the two heaviest stones and subtract their weights.
+Dry run
+Step	Two heaviest	Calculation	Remaining stones
+	8 and 7	8 - 7 = 1	[2,4,1,1,1]
+	4 and 2	4 - 2 = 2	[2,1,1,1]
+	2 and 1	2 - 1 = 1	[1,1,1]
+	1 and 1	Equal, both destroyed	[1]
+Final answer: 1
+
+after subtracting the two largest numbers, we remove both original numbers and insert their difference back into the array.
+
+poll() → removes the largest stone.
+poll() → removes the second-largest stone.
+Subtract the smaller weight from the larger weight.
+offer() → inserts the difference back into the heap, only if the difference is greater than 0.
+
+
+import java.util.PriorityQueue;
+import java.util.Collections;
+
+class Solution {
+    public int lastStoneWeight(int[] stones) {
+
+        PriorityQueue<Integer> pq =
+            new PriorityQueue<>(Collections.reverseOrder());
+
+        // Add all stones to the Max Heap
+        for (int stone : stones) {
+            pq.offer(stone);
+        }
+
+        // Smash the two heaviest stones
+        while (pq.size() > 1) {
+            int x = pq.poll();
+            int y = pq.poll();
+
+            if (x != y) {
+                pq.offer(x - y);
+            }
+        }
+
+        // Return the last remaining stone
+        return pq.isEmpty() ? 0 : pq.poll();
+    }
+}
+
+
