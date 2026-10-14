@@ -1,0 +1,44 @@
+Imagine you are driving a car with 4 seats.
+You are given trips in this format:
+[passengers, pickup location, drop location]
+For example:
+[2, 1, 5]
+This means:
+- Pick up 2 passengers at kilometer 1.
+- Drop them off at kilometer 5.
+Your job is to check whether the car ever carries more passengers than its capacity.
+If it does, return false. Otherwise, return true.
+
+so basically we are ,storing the changes at each loaction, like add at this location and subtract at this 
+, and then in the next loop , we add each chnages with passengers , and if passengers exceeds capacity, we return false
+
+
+class Solution {
+    public boolean carPooling(int[][] trips, int capacity) {
+
+        int[] changes = new int[1001];
+
+        // Record pickups and drop-offs
+        for (int[] trip : trips) {
+            int passengers = trip[0];
+            int from = trip[1];
+            int to = trip[2];
+
+            changes[from] += passengers;
+            changes[to] -= passengers;
+        }
+
+        // Calculate the running passenger count
+        int passengers = 0;
+
+        for (int i = 0; i <= 1000; i++) {
+            passengers += changes[i];
+
+            if (passengers > capacity) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
