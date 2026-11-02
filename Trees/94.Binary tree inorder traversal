@@ -1,0 +1,54 @@
+You are given a binary tree, which is a structure made up of nodes.
+
+Each node can have:
+- A value.
+- A left child.
+- A right child.
+The question asks you to visit every node in a particular order and return their values in an array (list).
+
+That particular order is called Inorder Traversal.
+
+It means:
+Left → Root → Right
+- Left: Visit the left subtree.
+- Root: Visit the current node.
+- Right: Visit the right subtree.
+
+***********
+Start from the root.
+Keep moving left as long as a left child exists.
+Push each visited node into the stack.
+When you reach null, pop a node from the stack.
+Add its value to the result array.
+Move to its right child.
+Again, repeat the same process.
+
+**************************************
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+
+        List<Integer> result = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+
+        TreeNode current = root;
+
+        while (current != null || !stack.isEmpty()) {
+
+            // Keep moving left
+            while (current != null) {
+                stack.push(current);
+                current = current.left;
+            }
+
+            // Pop the node and add its value
+            current = stack.pop();
+            result.add(current.val);
+
+            // Move to the right child
+            current = current.right;
+        }
+
+        return result;
+    }
+}
