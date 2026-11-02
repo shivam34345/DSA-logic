@@ -1,0 +1,58 @@
+Preorder Traversal = Root → Left → Right
+
+We visit the nodes in this specific order:
+1. Root: Visit the current node first.
+2. Left: Traverse the entire left subtree.
+3. Right: Traverse the entire right subtree.
+
+Why push right first?
+Because a Stack follows LIFO (Last In, First Out).
+
+So, if we push:
+- Right child first.
+- Left child second.
+The left child will come out first!
+???????????????????????????
+ohhk i see , so we pop a element ,
+add its right first and then left in the stack ,
+, so left automatically pops first and we repeat this for each element ,
+like which ever element pops out of stack first add it to result(root) ,
+then push its right and then left in stack ,, so left pops before right ,(root->left->right), and we repeat this till stack goes empty!!
+
+////////////////////////////////////
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+
+        List<Integer> result = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+
+        // Handle empty tree
+        if (root == null) {
+            return result;
+        }
+
+        // Initially push root
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+
+            // Pop the top node
+            TreeNode node = stack.pop();
+
+            // Add node value to result
+            result.add(node.val);
+
+            // Push right child first
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+
+            // Push left child second
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+
+        return result;
+    }
+}
