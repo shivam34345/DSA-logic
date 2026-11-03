@@ -10,3 +10,53 @@ For every pair of nodes:
 4. Recursively compare their left children.
 5. Recursively compare their right children.
 
+We don't need separate base conditions for p.left and p.right.
+
+Why? Because every recursive call checks whether its current nodes are null.
+
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+
+        // Case 1: Both nodes are null
+        if (p == null && q == null) {
+            return true;
+        }
+
+        // Case 2: Only one node is null
+        if (p == null || q == null) {
+            return false;
+        }
+
+        // Case 3: Node values are different
+        if (p.val != q.val) {
+            return false;
+        }
+
+        // Case 4: Compare left and right subtrees
+        return isSameTree(p.left, q.left) &&
+               isSameTree(p.right, q.right);
+    }
+}
+****************************
+We call both recursive functions in the same return because both the left subtree AND the right subtree must be identical.
+       1                 1
+      / \               / \
+     2   3             2   3
+    /                   /
+   4                   5
+
+
+At the root:
+return isSameTree(p.left, q.left) &&
+       isSameTree(p.right, q.right);
+
+
+- First call checks the entire left subtree.
+  - Node 2 matches.
+  - Node 4 != Node 5.
+  - Returns false.
+- Second call checks the entire right subtree.
+  - Node 3 matches.
+  - Returns true.
+Therefore:
+return false && true;
