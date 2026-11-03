@@ -14,3 +14,8 @@ That means we can do:
 current.val;    // 1
 current.left;   // Node 2
 current.right;  // Node 3
+
+yeah exactly for this backtrack are we gonna use stack or we have the parent vaue stored?
+Great question! You're now getting into how recursion actually works internally. 🔥
+Yes, a stack is used behind the scenes! It's called the Call Stack.
+You don't need to create a stack manually. Java manages it for you whenever you use recursion.
