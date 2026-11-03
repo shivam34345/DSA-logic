@@ -1,0 +1,12 @@
+Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+ Our recursive approach
+For every pair of nodes:
+1. Check if both are null → true.
+2. Check if only one is null → false.
+3. Compare their values.
+4. Recursively compare their left children.
+5. Recursively compare their right children.
+
